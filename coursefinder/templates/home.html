@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+
+
+
+       function comment(c_id){
+
+
+           var input1 = window.prompt("Please enter your comment")
+           var input2 = window.prompt("Please enter your ratings")
+
+       $.ajax(
+       {
+            type:"POST",
+            dataType: 'json',
+            url: "",
+            data:{
+                    arg1: input1,
+                    arg2: input2,
+                    arg3: c_id
+            },
+            success: function(response)
+            {
+
+                $("#rating").empty().append((Math.round(response.rating * 100) / 100).toFixed(2))
+                $("#review").empty().append(response.review)
+
+            }
+            }
+            );
+            }
+    </script>
+
+    <title>CourseFinder</title>
+</head>
+<body>
+    <h1>CourseFinder</h1>
+    <div>
+        <table id="mytable">
+            <tr>
+            <th>Course</th>
+            <th>Ratings</th>
+            <th>Reviews</th>
+            </tr>
+            {% for each in model %}
+        <tr>
+            <td>{{each.course_name}}</td>
+            <td id = "rating{{each_course_id}}">{{each.course_ratings}}'</td>
+            <td id = "review{{each_course_id}}">{{each.course_reviews}}</td>
+            <td><button onclick="comment({{each.course_id}})">Add comment</button></td>
+        </tr>
+
+        {% endfor %}
+        </table>
+
+
+    </div>
+ <script>
+       const collection = document.getElementsByTagName("td")
+       console.log(collection);
+
+       for (let i = 1; i<=collection.length;i++)
+       {
+
+
+            rate = document.getElementById("rating${i}").innerHTML
+            console.log(rate)
+            new_rate = (Math.round(rate * 100) / 100).toFixed(2)
+
+            document.getElementById("rating${i}").innerHTML = new_rate
+
+}
+</script>
+</body>
+</html>
